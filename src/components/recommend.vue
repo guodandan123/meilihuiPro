@@ -2,7 +2,7 @@
 <div>
 	<ul class="banner">
 		<li v-for="data in datalist">
-			<img :src="data.main_image"  @click="handleClick()">
+			<img :src="data.main_image"  @click="handleClick(data.link_url)">
 			<div class="slogan">
 				<p class="slogan_1">{{data.main_title}}</p>
 				<p class="slogan_2">{{data.sub_title}}</p>
@@ -23,7 +23,7 @@
 			<li v-for="data in datalist1">
 				<img :src="data.imageUrl">
 				<div class="info">
-					<p>{{data.siloCategory}}</p>
+					<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
 					<p>{{data.englishName}}</p>
 					<p>{{data.chineseName}}</p>
 					<p>{{data.discountText}}</p>
@@ -38,7 +38,7 @@
 			<li v-for="data in datalist2">
 				<img :src="data.imageUrl">
 				<div class="info">
-					<p>{{data.siloCategory}}</p>
+					<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
 					<p>{{data.englishName}}</p>
 					<p>{{data.chineseName}}</p>
 					<p>{{data.discountText}}</p>
@@ -46,11 +46,11 @@
 			</li>
 		</ul>
 		<div class="secpic">
-			<img src="../assets/imgs/more.png" alt="">
+			<img src="../../static/imgs/more.png" alt="">
 		</div>
 		<div class="lastpic">
-			<img src="../assets/imgs/brandActive.png" alt="">
-			<img src="../assets/imgs/comingsoon.png" alt="">
+			<img src="../../static/imgs/brandActive.png" alt="">
+			<img src="../../static/imgs/comingsoon.png" alt="">
 		</div>
 	</div>
 
@@ -72,8 +72,9 @@ import axios from "axios"
 			}
 		},
 		methods:{
-				handleClick(){
-					this.$router.push('/brand')
+				handleClick(url){
+					var logoid = url.split("/").slice(-1).join("")
+					this.$router.push('/brand/'+logoid)
 				},
 				listClick(){
 					this.$router.push('/list')
@@ -92,12 +93,15 @@ import axios from "axios"
 
 			axios.get(`/appapi/home/eventForH5?params=%7B%7D&timestamp=1542785006310&summary=d1a10f68ec4a98a46efc641a77c24a3b&platform_code=H5`).then(res=>{
 				this.datalist1 = res.data.lists[0].events
-				// if (res.data.lists[0].events[0].siloCategory==='海外') {
-				// 	// console.log('aaaa')
-				// 	isShow:true
+				// if (res.data.lists[0].events[3].siloCategory==='海外') {
+				// 	console.log('yes')
+				// 	// this.siloCategory.innerHTML='哈哈哈哈'
+				// 	v-if:show
+				// }else {
+				// 	console.log('no')
 				// }
 				// console.log(res.data.lists[0].siloCategory)
-				// console.log(res.data.lists[0].events[0].siloCategory)
+				// console.log(res.data.lists[0].events[3].siloCategory)
 				this.datalist2 = res.data.lists[1].events
 			})
 			
@@ -133,6 +137,7 @@ div{
 			}
 		}
 	}
+
 	.secpic{
 		padding: 10px 20px 0 20px;
 		img{
@@ -149,6 +154,12 @@ div{
 			padding:10px 5px; 
 			
 		}
+	}
+	.picture{
+		img{
+			width: 100%;
+		}
+		
 	}
 	.list{
 		padding: 10px 20px;
@@ -172,6 +183,17 @@ div{
 						color: white;
 						font-weight: 500;
 					}
+					.siloCategory{
+							display: inline-block;
+							height: 10px;
+							padding: 5px;
+							line-height: 10px;
+							color: black;
+							font-size: 14px;
+							font-weight: 700;
+							background-color:white;
+							vertical-align: top;
+						}
 				}
 			}
 			
@@ -180,5 +202,9 @@ div{
 		
 	}
 }
+
+
+
+
 
 </style>
