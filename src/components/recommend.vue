@@ -94,6 +94,7 @@ import { Indicator } from 'mint-ui';
 			axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5`).then(res=>{
 				// console.log(res.data.banners)
 				this.datalist = res.data.banners
+				console.log(res.banners.link_url)
 			})
 
 			axios.get(`/appapi/home/newZoneEntrance/v3?credential=`).then(res=>{

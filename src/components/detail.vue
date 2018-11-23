@@ -329,6 +329,8 @@ import { Indicator } from 'mint-ui';
 			.ser{
 				padding: 0 5px;
 				border-right: 1px solid #ccc;
+				white-space: nowrap;
+				overflow: hidden;
 			}
 		}
 		
