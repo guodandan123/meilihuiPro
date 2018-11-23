@@ -27,15 +27,15 @@
 			</div>
 			</div>
 
-			<div class="infomation"  v-if="infomation">
-				<p class="name">{{infomation.name}}</p>
-				<del class="marketPrice">￥{{infomation.marketPrice}}</del>
-				<p class="price1">￥{{infomation.price}}</p>
+			<div class="information"  v-if="information">
+				<p class="name">{{information.name}}</p>
+				<del class="marketPrice">￥{{information.marketPrice}}</del>
+				<p class="price1">￥{{information.price}}</p>
 				
 				<p class="discount" v-for="data in product_labels">{{data.label_text}}</p>
 
-				<p class="warehouse_name">{{infomation.warehouse_name}}
-					<span class="deliver_date">{{infomation.deliver_date}}</span>
+				<p class="warehouse_name">{{information.warehouse_name}}
+					<span class="deliver_date">{{information.deliver_date}}</span>
 				</p>
 				
 			</div>
@@ -59,20 +59,25 @@
 			
 			<div class="return">
 				<h3>退货提示</h3>
-				<p v-if="infomation" class="tip">{{infomation.returnNote}}</p>
+				<p v-if="information" class="tip">{{information.returnNote}}</p>
 			</div>
 
 			<div class="burberry">
 				<h3>BURBERRY</h3><!-- <span class="">品牌主页</span> -->
-				<div class="hello">
-				      <div v-for='item in showList'>{{item}}</div>
-				      <div @click="showAll = !showAll" class="show-more">{{word}}</div>
+				<div class="brandchange">
+					<div class="brandtext">
+						<div :class="isLong?'textcenter':'more'">
+							<p class="tip" v-if="information"><br><br><br><br><br>{{information.brand_story}}</p>
+							<span @click="isLong=!isLong ">{{isLong?'MORE':''}}</span>
+						</div>
+					</div>
 				</div>
+
 			</div>
 
 			<div class="abroad">
 				<!-- <h3>海外直发小贴士</h3> -->
-				<p v-if="infomation"><img :src="infomation.overseas_tip_url" alt=""></p>
+				<p v-if="information"><img :src="information.overseas_tip_url" alt=""></p>
 				<p v-for="data in postSellUrls">
 					<img :src="data" alt="">
 				</p>
@@ -117,7 +122,7 @@ import "swiper/dist/css/swiper.css";
 			return {
 				datalist:[],
 				looplist:[],
-				infomation:null,
+				information:null,
 				newTagList:[],
 				service:[],
 				ticketInfo:[],
@@ -128,38 +133,9 @@ import "swiper/dist/css/swiper.css";
 				productReviews:null,
 				productReviews_review:[],
 				reviewsList:[],
-				toLearnList:[
-				       '','','','','','','','','','Burberry创立于1856年，是英国皇室御用品牌，招牌格子图案是Burberry家族身份和地位的象征。而今博柏利强调英国传统高贵的设计，其多层次的产品系列满足了不同年龄和性别消费者需求，赢取无数人的欢心，成为一个具有英国传统风格的品牌。'   //进行显示的数据
-				     ],
-				     showAll:false,  　　　　　　　　　　　　　　　　//标记数据是否需要完全显示的属性
-
-
+				isLong :true
 			}
 		},
-		computed:{
-		    showList:function(){
-		      if(this.showAll == false){                    //当数据不需要完全显示的时候
-		        var showList = [];　　　　　　　　　　　　　　　 //定义一个空数组
-		        if(this.toLearnList.length > 3){　　　　　　　//这里我们先显示前三个
-		          for(var i=0;i<3;i++){
-		            showList.push(this.toLearnList[i])
-		          }
-		        }else{
-		          showList = this.toLearnList
-		        }
-		        return showList;　　　　　　　　　　　　　　　　 //返回当前数组
-		      }else{
-		        return this.toLearnList;
-		      }
-		    },
-		    word:function(){
-		      if(this.showAll == false){　　　　　　　　　　　//对文字进行处理
-		        return '点击展开'
-		      }else{
-		        return '点击收起'
-		      }
-		    }
-		  },
 		mounted(){
 			axios.get("/appapi/product/colorgroupsize/v3?categoryId=2121005100000001556&productId=2041204199000392637&platform_code=H5&timestamp=1542849701217&summary=f86a4475ffcab99bc21d3275bfca2dcc").then(res=>{
 				// console.log(res.data.infos.colorGroup[0].brand)
@@ -190,7 +166,7 @@ import "swiper/dist/css/swiper.css";
 					   });
 				})
 
-				this.infomation=res.data.infos;
+				this.information=res.data.infos;
 				this.product_labels=res.data.infos.product_labels;
 				this.service=res.data.infos.service_labels;
 				this.ticketInfo=res.data.infos.ticketInfo;
@@ -274,7 +250,7 @@ import "swiper/dist/css/swiper.css";
 			}
 		}
 	}
-	.infomation{
+	.information{
 		margin:0px 20px; 
 		.name{
 			font-size: 18px;
@@ -457,4 +433,31 @@ import "swiper/dist/css/swiper.css";
 			}
 		}
 	}
+
+				.brandchange{
+					.textcenter{
+						height:150px;
+						overflow: hidden;
+						p{
+							height:100px;
+							overflow: hidden;
+							font-size: 14px;
+							color:#666;
+							line-height: 26px;
+							
+						}
+						span{
+							width: 100%;
+						    height:40px;
+						    display: block;
+						    line-height: 40px;
+						    text-align: center;
+						    color: black;
+						    font-weight: 800;
+						    font-size: 16px;
+						    cursor: pointer;
+						}
+					}
+					
+			}
 </style>
