@@ -60,7 +60,8 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
+import { Indicator } from 'mint-ui';
 	export default {
 		data () {
 			isShow:true
@@ -81,6 +82,11 @@ import axios from "axios"
 				}
 			},
 		mounted(){
+			Indicator.open({
+			  text: '数据加载中...',
+			  spinnerType: 'fading-circle'
+			});
+
 			axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5`).then(res=>{
 				// console.log(res.data.banners)
 				this.datalist = res.data.banners
@@ -93,17 +99,10 @@ import axios from "axios"
 
 			axios.get(`/appapi/home/eventForH5?params=%7B%7D&timestamp=1542785006310&summary=d1a10f68ec4a98a46efc641a77c24a3b&platform_code=H5`).then(res=>{
 				this.datalist1 = res.data.lists[0].events
-				// if (res.data.lists[0].events[3].siloCategory==='海外') {
-				// 	console.log('yes')
-				// 	// this.siloCategory.innerHTML='哈哈哈哈'
-				// 	v-if:show
-				// }else {
-				// 	console.log('no')
-				// }
-				// console.log(res.data.lists[0].siloCategory)
-				// console.log(res.data.lists[0].events[3].siloCategory)
 				this.datalist2 = res.data.lists[1].events
 			})
+
+			Indicator.close();
 			
 		}
 

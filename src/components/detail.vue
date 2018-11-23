@@ -117,6 +117,7 @@
 import axios from "axios";
 import Swiper from "swiper";
 import "swiper/dist/css/swiper.css";
+import { Indicator } from 'mint-ui';
 	export default {
 		data () {
 			return {
@@ -137,6 +138,10 @@ import "swiper/dist/css/swiper.css";
 			}
 		},
 		mounted(){
+			Indicator.open({
+			  text: '数据加载中...',
+			  spinnerType: 'fading-circle'
+			});
 			axios.get("/appapi/product/colorgroupsize/v3?categoryId=2121005100000001556&productId=2041204199000392637&platform_code=H5&timestamp=1542849701217&summary=f86a4475ffcab99bc21d3275bfca2dcc").then(res=>{
 				// console.log(res.data.infos.colorGroup[0].brand)
 				this.datalist=res.data.infos.colorGroup;
@@ -165,6 +170,7 @@ import "swiper/dist/css/swiper.css";
 					       },
 					   });
 				})
+				Indicator.close();
 
 				this.information=res.data.infos;
 				this.product_labels=res.data.infos.product_labels;
