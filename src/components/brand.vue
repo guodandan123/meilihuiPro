@@ -31,13 +31,44 @@
 	    </div>
 
 	    <div class="brandproducts">
-	    	<div class=""></div>
+	    	<div class="swiper-container">
+	    		<h2>精选上新</h2>
+			    <div class="swiper-wrapper">
+			        <div class="swiper-slide" v-for="data in produncts">
+			        	
+			        		<img :src="data.fileUrl">
+			        		<div class="imgmask"></div>
+			        		<div class="price">
+			        			<span>￥{{data.price}}</span>
+			        			<span>￥{{data.marketPrice}}</span>
+			        		</div>
+			        	
+			        </div> 
+			    </div>
+
+			   
+			</div>
 	    </div>
-<<<<<<< HEAD
+
+	    <div class="hotproducts">
+	    	<div class="swiper-container">
+	    		<h2>人气热销</h2>
+			    <div class="swiper-wrapper">
+			        <div class="swiper-slide" v-for="data in hot">
+			        		<img :src="data.fileUrl">
+			        		<div class="imgmask"></div>
+			        		<div class="price">
+			        			<span>￥{{data.price}}</span>
+			        			<span>￥{{data.marketPrice}}</span>
+			        		</div>
+			        </div> 
+			    </div> 
+			</div>
+	    </div>
 
 	    <div class="relation">
 	    	<h2>好货推荐</h2>
-	    	<
+	    	
 			                      
 	    	<div class="relation_nav_box">
 	    		<div class="relation_nav swiper-container">
@@ -69,20 +100,24 @@
 	    </div>
 
 
-=======
->>>>>>> 567aeb092e747f69d42d2e87d0e1444d8e4a8505
 	</div>
 </template>
 
 <script>
 import axios from "axios"
+import Swiper from "swiper"
+import "swiper/dist/css/swiper.css"
 	export default {
 		data () {
 			return {
 				isLong :true,
 				butchange:'更多',
 				brandlist:{},
-				seclist:{}
+				seclist:{},
+				produncts:[],
+				hot:[],
+				rnav:[],
+				last:[]
 			}
 		},
 		
@@ -93,7 +128,7 @@ import axios from "axios"
 			
 		},
 		mounted(){
-			console.log(this.$route.params.logoid)
+			// console.log(this.$route.params.logoid)
 			axios.get(`/appapi/brand/viewCms/v3?logoId=${this.$route.params.logoid}`).then(res=>{
 				// console.log(res.data.body.brandDetail)
 				this.brandlist = res.data.body.brandDetail
@@ -101,11 +136,70 @@ import axios from "axios"
 				
 			})
 			axios.get(`/appapi/brand/product/hotNew/v3?logoId=${this.$route.params.logoid}`).then(res=>{
-				console.log(res.data.body)
+				// console.log(res.data.body)
 				this.seclist = res.data.body
 				
 				
 			})
+			axios.get(`/appapi/brand/product/hotNew/v3?logoId=${this.$route.params.logoid}`).then(res=>{
+				// console.log(res.data.body.newProductTop10)
+				this.produncts = res.data.body.newProductTop10
+				this.$nextTick(()=>{
+					 var swiper = new Swiper('.swiper-container', {
+					      slidesPerView: 3,
+					      spaceBetween: 30,
+					      pagination: {
+					        el: '.swiper-pagination',
+					        clickable: true,
+					      },
+					    });
+
+				})
+
+				
+				
+			})
+			axios.get(`/appapi/brand/product/hotNew/v3?logoId=${this.$route.params.logoid}`).then(res=>{
+				// console.log(res.data.body.hotProductTop10)
+				this.hot = res.data.body.hotProductTop10
+				this.$nextTick(()=>{
+					 var swiper = new Swiper('.swiper-container', {
+					      slidesPerView: 3,
+					      spaceBetween: 30,
+					      pagination: {
+					        el: '.swiper-pagination',
+					        clickable: true,
+					      },
+					    });
+
+				})
+				
+				
+			})
+			axios.get(`/appapi/brand/product/secCategoryProduct/v3?logoId=${this.$route.params.logoid}&pageIndex=1`).then(res=>{
+				console.log(res.data.body.categoryProducts)
+				this.rnav = res.data.body.categories
+				this.last = res.data.body.categoryProducts
+
+				this.$nextTick(()=>{
+					 var swiper = new Swiper('.swiper-container', {
+					      slidesPerView: 3,
+					      spaceBetween: 30,
+					      pagination: {
+					        el: '.swiper-pagination',
+					        clickable: true,
+					      },
+					    });
+
+				})
+				
+				
+			})
+	
+
+
+
+		
 		}
 
 	}	
@@ -214,6 +308,7 @@ import axios from "axios"
 						    color: #d88358;
 						    font-size: 14px;
 						    cursor: pointer;
+						    padding-bottom: 15px;
 						   
 
 						}
@@ -242,7 +337,6 @@ import axios from "axios"
 			}
 			
 		}
-<<<<<<< HEAD
 		.brandproducts{
 			h2{
 				font-size: 20px;
@@ -383,7 +477,11 @@ import axios from "axios"
 				}
 			}
 		}
-=======
->>>>>>> 567aeb092e747f69d42d2e87d0e1444d8e4a8505
 	}
+
+
 </style>
+
+	
+
+ 
