@@ -9,16 +9,19 @@
 					<p>{{data.sub_title}}</p>
 					<p>{{data.description}}</p>
 				</div>
+
+				<div class="divtype ">
+					<ul class="type ">
+						<li v-for="data in typelist">
+							<img :src="data.categoryImgStr"  @click="handleClick()">
+						</li>
+					</ul>
+				</div>
+
 			</li>
 			
 		</ul>
-		<div class="divtype ">
-			<ul class="type ">
-				<li v-for="data in typelist">
-					<img :src="data.categoryImgStr"  @click="handleClick()">
-				</li>
-			</ul>
-		</div>
+		
 		<div class="womaneachlist">
 			<ul class="each container">
 				<li v-for="data in productsliat">
@@ -34,6 +37,10 @@
 		<button @click="handleClick()">click女士跳品牌页</button>
 		<button @click="listClick()">click女士产品列表页</button>
 		
+
+
+
+
 	</div>
 </template>
 
@@ -94,6 +101,7 @@ import axios from "axios"
 div{
 	.gg{position: relative;
 		li{
+			width:100%;
 			position:  relative;
 			img{
 				width:100%;
@@ -117,38 +125,32 @@ div{
 					font-size: 14px;
 				}
 			}
-		}
-	}
-	.divtype{
-		background-color: white;
-		width:360px;
-		height:80px;
-		
-		position: absolute;
-		left:0;
-		bottom:120px;
-		padding:0 15px;
-		padding-right:0;
-		.type{
-		
-		
-		
-		
-		padding-top:7px;
+			.divtype{
+				width:100%;
+				position: absolute;
+				background: white;
 
-			li{
-				float:left;
-				margin-right: 7px;
-				img{
-					width:63px;
-					height:80px;
+				bottom:0;
+				.type{
+					margin:7px 15px;
+					width:100%;
+					
+					li{
+						width:15%;
+						margin-right: 15px;
+						float:left;
+						img{
+							width:100%;
+							height:80px;
+
+						}
+					}
 				}
 			}
-		}
-	}
+		}}
 	
 	.womaneachlist{
-		padding-top:40px;
+		padding-top:20px;
 		.each{
 			li{
 				position: relative;
@@ -179,9 +181,9 @@ div{
 			}
 		}
 	}
-}			
+			
 
-
+}
 	
 
 .container{
