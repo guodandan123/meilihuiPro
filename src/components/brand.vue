@@ -68,8 +68,10 @@
 
 	    <div class="relation">
 	    	<h2>好货推荐</h2>
+	    	<
+			                      
 	    	<div class="relation_nav_box">
-	    		<div class="relation_nav">
+	    		<div class="relation_nav swiper-container">
 	    			 <div class="swiper-wrapper">
 				        <div class="swiper-slide" v-for="data in rnav">
 				        		<a href=""><span>{{data.categoryName}}</span></a>
@@ -429,10 +431,11 @@ import "swiper/dist/css/swiper.css"
 			.relation_nav_box{
 				padding-bottom: 15px;
 				border-bottom: 1px solid #ccc;
+				overflow: hidden;
 				.relation_nav{
-					
+				
 					.swiper-wrapper{
-
+							/*width:80%;*/
 						.swiper-slide{
 							width:30%;
 							a{
