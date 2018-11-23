@@ -3,7 +3,7 @@
 		
 		<ul class="gg">
 			<li v-for="data in datalist">
-			<img :src="data.main_image"  @click="handleClick()">
+			<img :src="data.main_image"  @click="handleClick(data.link_url)">
 				<div class="text">
 					<h3>{{data.main_title}}</h3>
 					<p>{{data.sub_title}}</p>
@@ -50,8 +50,9 @@ import axios from "axios"
 			}
 		},
 		methods:{
-			handleClick(){
-				this.$router.push('/brand')
+			handleClick(url){
+				var logoid = url.split("/").slice(-1).join("")
+				this.$router.push('/brand/'+logoid)
 			},
 			listClick(){
 				this.$router.push('/list')
@@ -120,13 +121,14 @@ div{
 	}
 	.divtype{
 		background-color: white;
-		width:100%;
+		width:360px;
 		height:80px;
 		
 		position: absolute;
 		left:0;
 		bottom:120px;
 		padding:0 15px;
+		padding-right:0;
 		.type{
 		
 		

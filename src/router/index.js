@@ -60,7 +60,7 @@ export default new Router({
       
     },
      {
-      path: '/brand',
+      path: '/brand/:logoid',
       component:Brand,
       
     },
