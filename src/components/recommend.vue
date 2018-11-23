@@ -17,7 +17,7 @@
 
 	<div class="list">
 		<div class="secpic">
-			<img src="../assets/imgs/new.png" alt="">
+			<img src="../../static/imgs/new.png" alt="">
 		</div>
 		<ul>
 			<li v-for="data in datalist1">
@@ -32,7 +32,7 @@
 			</li>
 		</ul>
 		<div class="secpic">
-			<img src="../assets/imgs/hot.png" alt="">
+			<img src="../../static/imgs/hot.png" alt="">
 		</div>
 		<ul>
 			<li v-for="data in datalist2">
