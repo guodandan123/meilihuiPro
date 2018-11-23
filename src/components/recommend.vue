@@ -101,8 +101,12 @@ import { Indicator } from 'mint-ui';
 				this.datalist1 = res.data.lists[0].events
 				this.datalist2 = res.data.lists[1].events
 			})
+			Promise.all([axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5`),axios.get(`/appapi/home/newZoneEntrance/v3?credential=`),axios.get(`/appapi/home/eventForH5?params=%7B%7D&timestamp=1542785006310&summary=d1a10f68ec4a98a46efc641a77c24a3b&platform_code=H5`)]).then(res=>{
+					Indicator.close();
+					console.log('隐藏loading')
+				})
 
-			Indicator.close();
+			
 			
 		}
 
