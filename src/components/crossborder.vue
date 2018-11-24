@@ -12,14 +12,14 @@
 		</ul>
 		<div id="bg">
 			<ul>
-				<li v-for="data in datalist1" >
+				<li v-for="data in datalist1">
 					<img :src="data.categoryImgStr" alt="" id="b2">
 				</li>
 			</ul>
 		</div>
 		<div class="list">
 			<ul>
-				<li v-for="data in datalist2"  >
+				<li v-for="data in datalist2" @click="handleClickToDetail()">
 					<img :src="data.imageUrl" alt="" >
 					<div class="image_t">
 						<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
@@ -55,6 +55,9 @@ import { Indicator } from 'mint-ui';
 				},
 				listClick(){
 					this.$router.push('/list')
+				},
+				handleClickToDetail(){
+					// console.log('1111111111111')
 				}
 			},
 		mounted(){
@@ -66,6 +69,8 @@ import { Indicator } from 'mint-ui';
 				// console.log(res.data.banners)
 				this.datalist = res.data.banners
 				// this.datalist = res.data.data
+
+				console.log(res.data)
 			})
 			axios.get(`/appapi/cms/cmsDetail/v3?silo=2013000100000000011&ids=2041000100000000206&timestamp=1542936026319&summary=42a93e406330f96f0e3a024f4f8737d9&platform_code=H5`).then(res=>{
 				// console.log(res.data.resultList[0].data)
@@ -73,7 +78,7 @@ import { Indicator } from 'mint-ui';
 				// this.datalist = res.data.data
 			})
 			axios.get(`/appapi/silo/eventForH5?categoryId=crossborder&pageIndex=1&timestamp=1542941690663&summary=b596ecfc5e46f2814e7a3c0efb098500&platform_code=H5`).then(res=>{
-				console.log(res.data.eventList)
+				// console.log(res.data.eventList)
 				this.datalist2 = res.data.eventList
 				// this.datalist = res.data.data
 			})

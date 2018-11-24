@@ -53,7 +53,7 @@
 			<img src="../../static/imgs/comingsoon.png" alt="">
 		</div>
 	</div>
-
+	
 	
 	
 </div>

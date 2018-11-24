@@ -1,6 +1,6 @@
 <template>
 	<div>
-		navbar
+		<!-- navbar -->
 		<ul>
 			<router-link to="/silo/recommend" tag="li" activeClass="active">推荐</router-link>
 			<router-link to="/silo/crossborder" tag="li" activeClass="active">海外</router-link>
@@ -39,10 +39,11 @@ import axios from "axios"
 <style scoped lang="scss">
 	div{
 		ul{
+			height: 32px;
+			line-height: 32px;
 			li{
 				float:left;
 				margin:5px;
-				color: white;
 			}
 		}
 	}
