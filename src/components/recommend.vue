@@ -86,7 +86,8 @@ import { Indicator } from 'mint-ui';
 		mounted(){
 			Indicator.open({
 			  text: '加载中...',
-			  spinnerType: 'fading-circle'
+				text:'数据加载中...',
+				spinnerType:'fading-circle'
 			});
 
 			axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5`).then(res=>{
@@ -108,7 +109,6 @@ import { Indicator } from 'mint-ui';
 					console.log('数据加载完成')
 				})
 
-			
 			
 		}
 
