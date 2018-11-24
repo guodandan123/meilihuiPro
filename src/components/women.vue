@@ -1,9 +1,8 @@
 <template>
 	<div>
-		
 		<ul class="gg">
 			<li v-for="data in datalist">
-			<img :src="data.main_image"  @click="handleClick(data.link_url)">
+			<img :src="data.main_image" @click="handleClick(data.link_url)">
 				<div class="text">
 					<h3>{{data.main_title}}</h3>
 					<p>{{data.sub_title}}</p>
@@ -45,7 +44,10 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import { Indicator } from 'mint-ui';
 
 	export default {
 		data () {
@@ -57,6 +59,7 @@ import axios from "axios"
 			}
 		},
 		methods:{
+
 			handleClick(url){
 				var logoid = url.split("/").slice(-1).join("")
 				this.$router.push('/brand/'+logoid)
@@ -66,6 +69,10 @@ import axios from "axios"
 			}
 		},
 		mounted(){
+			Indicator.open({
+			  text: '加载中...',
+			  spinnerType: 'fading-circle'
+			});
 			axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000001&platform_code=PLATEFORM_H5`).then(res=>{
 			
 				this.datalist = res.data.banners
@@ -87,6 +94,10 @@ import axios from "axios"
 				console.log(res.data.eventList)
 			})
 
+			Promise.all([axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000001&platform_code=PLATEFORM_H5`),axios.get(`/appapi/cms/cmsDetail/v3?silo=2013000100000000001&ids=2120000100000000276&timestamp=1542782036495&summary=bce294d29748872f729d3de0d98ee542&platform_code=H5`),axios.get(`appapi/silo/eventForH5?categoryId=women&pageIndex=1&timestamp=1542791244604&summary=37a02a1b5631212473be66bc73addb8e&platform_code=H5`)]).then(res=>{
+					Indicator.close();
+					console.log('数据加载完成')
+				})
 
 		}
 		

@@ -61,6 +61,8 @@
 
 <script>
 import axios from "axios";
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 import { Indicator } from 'mint-ui';
 	export default {
 		data () {
@@ -83,14 +85,13 @@ import { Indicator } from 'mint-ui';
 			},
 		mounted(){
 			Indicator.open({
-			  text: '数据加载中...',
+			  text: '加载中...',
 			  spinnerType: 'fading-circle'
 			});
 
 			axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5`).then(res=>{
 				// console.log(res.data.banners)
 				this.datalist = res.data.banners
-				console.log(res.banners.link_url)
 			})
 
 			axios.get(`/appapi/home/newZoneEntrance/v3?credential=`).then(res=>{
@@ -104,7 +105,7 @@ import { Indicator } from 'mint-ui';
 			})
 			Promise.all([axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5`),axios.get(`/appapi/home/newZoneEntrance/v3?credential=`),axios.get(`/appapi/home/eventForH5?params=%7B%7D&timestamp=1542785006310&summary=d1a10f68ec4a98a46efc641a77c24a3b&platform_code=H5`)]).then(res=>{
 					Indicator.close();
-					console.log('隐藏loading')
+					console.log('数据加载完成')
 				})
 
 			

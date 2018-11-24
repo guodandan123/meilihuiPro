@@ -2,7 +2,7 @@
 	<div id="boss">
 		<ul id="banner1">
 			<li v-for="data in datalist">
-				<img :src="data.main_image"  @click="handleClick()">
+				<img :src="data.main_image"  @click="handleClick(data.link_url)">
 					<div class="banner_t">
 						<p class="slogan_1">{{data.main_title}}</p>
 						<p class="slogan_2">{{data.sub_title}}</p>
@@ -36,7 +36,10 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import { Indicator } from 'mint-ui';
 	export default {
 		data () {
 			return {
@@ -46,14 +49,19 @@ import axios from "axios"
 			}
 		},
 		methods:{
-				handleClick(){
-					this.$router.push('/brand')
+				handleClick(url){
+					var logoid = url.split("/").slice(-1).join("")
+					this.$router.push('/brand/'+logoid)
 				},
 				listClick(){
 					this.$router.push('/list')
 				}
 			},
 		mounted(){
+			Indicator.open({
+			  text: '加载中...',
+			  spinnerType: 'fading-circle'
+			});
 			axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000011&platform_code=PLATEFORM_H5`).then(res=>{
 				// console.log(res.data.banners)
 				this.datalist = res.data.banners
@@ -69,6 +77,11 @@ import axios from "axios"
 				this.datalist2 = res.data.eventList
 				// this.datalist = res.data.data
 			})
+
+			Promise.all([axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000011&platform_code=PLATEFORM_H5`),axios.get(`/appapi/cms/cmsDetail/v3?silo=2013000100000000011&ids=2041000100000000206&timestamp=1542936026319&summary=42a93e406330f96f0e3a024f4f8737d9&platform_code=H5`),axios.get(`/appapi/silo/eventForH5?categoryId=crossborder&pageIndex=1&timestamp=1542941690663&summary=b596ecfc5e46f2814e7a3c0efb098500&platform_code=H5`)]).then(res=>{
+					Indicator.close();
+					console.log('数据加载完成')
+				})
 		}
 
 	}	
