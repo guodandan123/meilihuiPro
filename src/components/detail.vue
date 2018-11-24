@@ -2,8 +2,8 @@
 	<div>
 		<div class="head" v-for="data in datalist">
 			<div class="head_nav">
-				<p class="back"><i class="iconfont icon-back" style="font-size: 28px;"></i></p>
-				<p class="share"><i class="iconfont icon-share" style="font-size: 28px;"></i></p>
+				<p class="back" @click="returnhandleClick()"><i class="iconfont icon-toleft" style="font-size: 28px;font-weight: 900"></i></p>
+				<p class="share"><i class="iconfont icon-gengduo" style="font-size: 28px;font-weight: 900;color:black;"></i></p>
 				<p class="brand">{{data.brand}}</p>
 				<p class="price">￥{{data.price}}</p>
 			</div>
@@ -137,17 +137,24 @@ import { Indicator } from 'mint-ui';
 				isLong :true
 			}
 		},
+		methods:{
+			returnhandleClick(){
+				this.$router.back(-1)
+			}
+		},
+
 		mounted(){
 			Indicator.open({
 			  text: '加载中...',
 			  spinnerType: 'fading-circle'
 			});
-			axios.get("/appapi/product/colorgroupsize/v3?categoryId=2121005100000001556&productId=2041204199000392637&platform_code=H5&timestamp=1542849701217&summary=f86a4475ffcab99bc21d3275bfca2dcc").then(res=>{
+			axios.get(`/appapi/product/colorgroupsize/v3?categoryId=2120005100000001419&productId=2040204099000594277&platform_code=H5&timestamp=1543039344697&summary=0b6c79ccdaf39b6d0fd39b55496162bc`).then(res=>{
 				// console.log(res.data.infos.colorGroup[0].brand)
+				console.log(this.$route.params.eventId)
 				this.datalist=res.data.infos.colorGroup;
 			})
 
-			axios.get("/appapi/product/detail/v3?categoryId=2121005100000001556&productId=2041204199000392637&platform_code=H5&timestamp=1542852300721&summary=2dc07120b1225b65e5684607b54833e8").then(res=>{
+			axios.get(`/appapi/product/detail/v3?${this.$route.params.pid}&platform_code=H5&timestamp=1543039344697&summary=0b6c79ccdaf39b6d0fd39b55496162bc`).then(res=>{
 				// console.log(res.data.infos.images)
 				// console.log(res.data.infos)
 				// console.log(res.data.infos.service_labels)

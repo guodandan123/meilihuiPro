@@ -67,10 +67,7 @@ import navbar from "./navbar.vue"
 			top:0px;
 			z-index:50;
 
-			.ichange{
-				color: black;
-			}
-	}
+		}
 }
 
 </style>

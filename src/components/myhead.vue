@@ -69,7 +69,7 @@
     width:50%;
 	}
 	.search span{
-		font-size:14px;
+		font-size:12px;
      }
      .search span i{
 		text-align: center;
@@ -96,4 +96,3 @@
 
 
 </style>
-<!-- http://www.mei.com/appapi/search/searchDefault/v3 -->

@@ -1,10 +1,12 @@
 <template>
 	<div>
-		
-	    <div class="head_nav">
-				<p class="brand">1111</p>
-				<p class="price">22222</p>
-		</div>
+		<section>
+			 <div :class="onScroll()>200?'flychange':'fly'" style="background: rgba(255,255,255,.5);">
+				<p class="back" @click="returnhandleClick()"><i class="iconfont icon-toleft" style="font-size: 28px;color:black;font-weight: 900"></i></p>
+				<p class="share"><i class="iconfont icon-gengduo" style="font-size: 28px;color:black;font-weight: 900"></i></p>
+			</div>
+		</section>
+	   
 
 	    <div class="brandinfo">
 		  	<div class="pic">
@@ -36,8 +38,8 @@
 			    <div class="swiper-wrapper">
 			        <div class="swiper-slide" v-for="data in produncts">
 			        	
-			        		<img :src="data.fileUrl">
-			        		<div class="imgmask"></div>
+			        		<img :src="data.fileUrl"  >
+			        		<div class="imgmask" @click="handleClickToDetail(data.eventId,data.productId)"></div>
 			        		<div class="price">
 			        			<span>￥{{data.price}}</span>
 			        			<span>￥{{data.marketPrice}}</span>
@@ -56,7 +58,7 @@
 			    <div class="swiper-wrapper">
 			        <div class="swiper-slide" v-for="data in hot">
 			        		<img :src="data.fileUrl">
-			        		<div class="imgmask"></div>
+			        		<div class="imgmask" @click="handleClickToDetail(data.eventId,data.productId)"></div>
 			        		<div class="price">
 			        			<span>￥{{data.price}}</span>
 			        			<span>￥{{data.marketPrice}}</span>
@@ -67,14 +69,12 @@
 	    </div>
 
 	    <div class="relation">
-	    	<h2>好货推荐</h2>
-	    	
-			                      
+	    	<h2>好货推荐</h2>                      
 	    	<div class="relation_nav_box">
 	    		<div class="relation_nav swiper-container">
 	    			 <div class="swiper-wrapper">
 				        <div class="swiper-slide" v-for="data in rnav">
-				        		<a href=""><span>{{data.categoryName}}</span></a>
+				        	<a href=""><span>{{data.categoryName}}</span></a>
 				        </div> 
 			    	</div> 
 	    		</div>
@@ -82,16 +82,16 @@
 	    	<div class="eachblock">
 	    		<ul>
 	    			<li v-for="data in last">
-	    				<img :src="data.fileUrl" alt="">
+	    				<img :src="data.fileUrl" alt=""  @click="handleClickToDetail(data.eventId,data.productId)">
 	    				<div class="miaoshu">
 	    					<span></span>
-	    					<span>{{data.brandName}}</span>
-	    					<span>{{data.productName}}</span>
+	    					<span class="englishName">{{data.brandName}}</span>
+	    					<span class="des">{{data.productName}}</span>
 	    					<span></span>
 	    					<div class="money">
-	    						<span>￥{{data.marketPrice}}</span>
-	    						<span>￥{{data.price}}</span>
-	    						<span>{{data.discount}}折</span>
+	    						<span class="price2">￥{{data.price}}</span>
+	    						<del class="marketPrice">￥{{data.marketPrice}}</del>
+	    						<span class="discount">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.discount}}折</span>
 	    					</div>
 	    				</div>
 	    			</li>
@@ -122,15 +122,31 @@ import "swiper/dist/css/swiper.css"
 		},
 		
 		methods:{
-			womenClick(){
-				this.$router.push('./detail/1234')
+			
+			handleClickToDetail(eventId,productId){
+				var pid='categoryId='+eventId+'&productId='+productId
+				this.$router.push('/detail/'+pid)
+				console.log(eventId)
+				console.log(pid)
+			},
+			returnhandleClick(){
+				this.$router.back(-1)
+			},
+			onScroll(){
+				 this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+				console.log(this.scrollTop)
+				// console.log('aaaaaa')
+				return this.scrollTop
+
 			}
+
 			
 		},
 		mounted(){
+ 			window.addEventListener('scroll', this.onScroll)
+
 			// console.log(this.$route.params.logoid)
 			axios.get(`/appapi/brand/viewCms/v3?logoId=${this.$route.params.logoid}`).then(res=>{
-				// console.log(res.data.body.brandDetail)
 				this.brandlist = res.data.body.brandDetail
 				
 				
@@ -190,16 +206,8 @@ import "swiper/dist/css/swiper.css"
 					        clickable: true,
 					      },
 					    });
-
 				})
-				
-				
 			})
-	
-
-
-
-		
 		}
 
 	}	
@@ -209,29 +217,49 @@ import "swiper/dist/css/swiper.css"
 
 <style scoped lang="scss">
 	div{
-		.head_nav{
-			background: rgba(255,255,255,.8);
-			position: fixed;
-			width: 100%;
-			top: 0;
-			left: 0;
-			z-index: 10;
-			.brand{
-				width: 100%;
-				text-align: center;
-				font-size: 16px;
-				height: 25px;
-				line-height: 25px;
-			}
-			.price{
-				width: 100%;
-				text-align: center;
-				font-size: 12px;
-				height: 25px;
-				line-height: 25px;
-				color: red;
-			}
+		section{
+			position: relative;
+
+				.fly{
+					position: fixed;
+					z-index:50;
+					width:100%;
+					color:white;
+					top:0;
+					height:50px;
+					/* background: red; */
+				}
+				.flychange{
+					background:blue;
+					color:black;
+					/* width:100%;
+					height:100px;
+					position:fixed;
+					top:0px;
+					z-index:50; */
+				}
+				.back{
+					position: absolute;
+					left: 0;
+					/* width: 50px;
+					height: 40px; */
+					/* color: black; */
+					padding: 10px 0 0 0;
+				}
+				.share{
+					position: absolute;
+					right:0;
+				/* 	width: 50px;
+					height: 40px;
+					color: black;
+					text-align: center; */
+					padding: 10px 0 0 0;
+				}
+
+
+				
 		}
+		
 		.brandinfo{
 			.pic{
 				position: relative;
@@ -426,22 +454,27 @@ import "swiper/dist/css/swiper.css"
 			
 			
 			h2{
-
+				font-size: 20px;
+				text-indent: 20px;
+				margin-top:40px;
+				margin-bottom: 20px;
 			}
 			.relation_nav_box{
 				padding-bottom: 15px;
+				margin-left: 20px;
 				border-bottom: 1px solid #ccc;
+				text-align: center;
 				overflow: hidden;
 				.relation_nav{
-				
+					
 					.swiper-wrapper{
 							/*width:80%;*/
 						.swiper-slide{
-							width:30%;
+							width:20%;
 							a{
-								span{
-
-								}
+								text-decoration: none;
+								color: black;
+								cursor: pointer;
 							}
 						}
 					}
@@ -456,21 +489,51 @@ import "swiper/dist/css/swiper.css"
 					li{
 						margin-left: 15px;
 						float: left;
-						background: red;
 						height:302px;
 						img{
 							width:165px;
 							height:220px;
 						}
 						.miaoshu{
+							
 							width:165px;
-							span{
+							.englishName{
 								display: block;
+								text-transform: uppercase;
+								width: 100%;
+								white-space: nowrap;
+								text-overflow: ellipsis;
+								overflow: hidden;
+								font-size: 16px;
+							}
+							.des{
+								display: block;
+								text-transform: uppercase;
+								width: 100%;
+								white-space: nowrap;
+								text-overflow: ellipsis;
+								overflow: hidden;
+								font-size: 14px;
 							}
 							.money{
-								span{
+									line-height: 20px;
 									float: left;
-								}
+									.marketPrice{
+										display: inline-block;
+										float: left;
+										font-size: 10px;
+										color: #ccc;
+									}
+									.price2{
+										float: left;
+										font-size: 10px;
+										color: red;
+									}
+									.discount{
+										position: absolute;
+										font-size: 10px;
+										color:gray;
+									}
 							}
 						}
 					}

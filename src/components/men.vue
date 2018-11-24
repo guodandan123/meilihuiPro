@@ -18,10 +18,11 @@
 			</ul>
 		</div>
 		<div class="list">
-			<ul v-infinite-scroll="loadMore"
-							  infinite-scroll-disabled="loading"
-							  infinite-scroll-distance="0"
-							  infinite-scroll-immediate-check='false'>
+			<ul class="each container" 
+  v-infinite-scroll="loadMore"
+  infinite-scroll-disabled="loading"
+  infinite-scroll-immediate-check="false"
+  infinite-scroll-distance="10">
 				<li v-for="data in datalist2" :key="data.id">
 					<a href="javascript:;">
 						<img :src="data.imageUrl" alt="" >
@@ -34,6 +35,7 @@
 					</div>
 				</li>
 			</ul>
+			<img v-show="isShow" src="static/imgs/loading.png" style="width: 100px;margin:auto">
 		</div>
 		
 	
@@ -55,7 +57,8 @@
 				datalist2:[],
 				loading:false,
 				current:1,
-				totalPages:3
+				total:0,
+				isShow:true
 			}
 		},
 		methods:{
@@ -69,16 +72,16 @@
 				loadMore(){
 					console.log('到底了')
 					this.current++;
-					if(this.current>this.totalPages){
+					
+					if(this.current>this.total){
 						this.loading = true
-						
-
+						this.isShow = false 
 						return;
 					}
-						axios.get(`/appapi/silo/eventForH5?categoryId=men&pageIndex=1&timestamp=1542782316390&summary=e83433c2597124c16efb0e3f5a0a1f5b&platform_code=H5`).then(res=>{
-						console.log(res.data.eventList)
-						this.datalist2 = res.data.eventList
-						// this.datalist = res.data.data
+					axios.get(`appapi/silo/eventForH5?categoryId=women&pageIndex=${this.current}&timestamp=1542791244604&summary=37a02a1b5631212473be66bc73addb8e&platform_code=H5`).then(res=>{
+				
+					this.datalist2 = [...this.datalist2,...res.data.eventList]
+					
 					})
 				}
 
@@ -104,9 +107,8 @@
 			axios.get(`/appapi/silo/eventForH5?categoryId=men&pageIndex=${this.current}&timestamp=1542885776859&summary=16c791a92cfc4a4d4a1ca804dee31cea&platform_code=H5`).then((res)=>{
 					
 
-					this.datalist2 = [...this.datalist2,...res.data.eventList]
-
-					this.totalPages = res.data.totalPages
+					this.datalist2 = res.data.eventList
+				this.total = res.data.totalPages
 				})
 
 				Promise.all([axios.get('/appapi/home/mktBannerApp/v3?silo_id=2013000100000000002&platform_code=PLATEFORM_H5'),axios.get('/appapi/cms/cmsDetail/v3?silo=2013000100000000002&ids=2121000100000000234&timestamp=1542782317055&summary=540bd74fe7de9a775386d13af8b4a3ea&platform_code=H5'),axios.get('/appapi/silo/eventForH5?categoryId=men&pageIndex=1&timestamp=1542782316390&summary=e83433c2597124c16efb0e3f5a0a1f5b&platform_code=H5')]).then(res=>{
@@ -197,6 +199,10 @@
 			}
 			
 		}
+		/* img:last-of-type{
+			width: 100px;
+			margin: 0 auto;
+		} */
 
 		
 	}

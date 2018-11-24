@@ -18,8 +18,12 @@
 			</ul>
 		</div>
 		<div class="list">
-			<ul>
-				<li v-for="data in datalist2"  >
+			<ul class="each container" 
+  v-infinite-scroll="loadMore"
+  infinite-scroll-disabled="loading"
+  infinite-scroll-immediate-check="false"
+  infinite-scroll-distance="10">
+				<li v-for="data in datalist2" >
 					<img :src="data.imageUrl" alt="" >
 					<div class="image_t">
 						<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
@@ -29,6 +33,7 @@
 					</div>
 				</li>
 			</ul>
+			<img v-show="isShow" src="static/imgs/loading.png" style="width: 100px;margin:auto">
 		</div>
 		
 	
@@ -45,11 +50,29 @@ import { Indicator } from 'mint-ui';
 			return {
 				datalist:[],
 				datalist1:[],
-				datalist2:[]
+				datalist2:[],
+				loading:false,
+				current:1,
+				total:0,
+				isShow:true
 			}
 		},
 		methods:{
+				loadMore(){
+					console.log('到底了')
+					this.current++;
+					
+					if(this.current>this.total){
+						this.loading = true
+						this.isShow = false 
+						return;
+					}
+					axios.get(`appapi/silo/eventForH5?categoryId=women&pageIndex=${this.current}&timestamp=1542791244604&summary=37a02a1b5631212473be66bc73addb8e&platform_code=H5`).then(res=>{
 				
+					this.datalist2 = [...this.datalist2,...res.data.eventList]
+					
+					})
+				}
 			},
 		mounted(){
 			Indicator.open({
@@ -69,6 +92,7 @@ import { Indicator } from 'mint-ui';
 			axios.get(`/appapi/silo/eventForH5?categoryId=cosmetics&pageIndex=1&timestamp=1542853844263&summary=e27ec8f9d46b28ab606d852aabe609fd&platform_code=H5`).then(res=>{
 				console.log(res.data.eventList)
 				this.datalist2 = res.data.eventList
+				this.total = res.data.totalPages
 				// this.datalist = res.data.data
 			})
 

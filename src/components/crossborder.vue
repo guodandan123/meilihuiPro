@@ -18,8 +18,12 @@
 			</ul>
 		</div>
 		<div class="list">
-			<ul>
-				<li v-for="data in datalist2" @click="handleClickToDetail()">
+			<ul class="each container" 
+  v-infinite-scroll="loadMore"
+  infinite-scroll-disabled="loading"
+  infinite-scroll-immediate-check="false"
+  infinite-scroll-distance="10">
+				<li v-for="data in datalist2">
 					<img :src="data.imageUrl" alt="" >
 					<div class="image_t">
 						<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
@@ -29,6 +33,7 @@
 					</div>
 				</li>
 			</ul>
+			<img v-show="isShow" src="static/imgs/loading.png" style="width: 100px;margin:auto">
 		</div>
 		
 	
@@ -45,9 +50,14 @@ import { Indicator } from 'mint-ui';
 			return {
 				datalist:[],
 				datalist1:[],
-				datalist2:[]
+				datalist2:[],
+				loading:false,
+				current:1,
+				total:0,
+				isShow:true
 			}
 		},
+
 		methods:{
 				handleClick(url){
 					var logoid = url.split("/").slice(-1).join("")
@@ -56,9 +66,22 @@ import { Indicator } from 'mint-ui';
 				listClick(){
 					this.$router.push('/list')
 				},
-				handleClickToDetail(){
-					// console.log('1111111111111')
+				loadMore(){
+					console.log('到底了')
+					this.current++;
+					
+					if(this.current>this.total){
+						this.loading = true
+						this.isShow = false 
+						return;
+					}
+					axios.get(`appapi/silo/eventForH5?categoryId=women&pageIndex=${this.current}&timestamp=1542791244604&summary=37a02a1b5631212473be66bc73addb8e&platform_code=H5`).then(res=>{
+				
+					this.datalist2 = [...this.datalist2,...res.data.eventList]
+					
+					})
 				}
+
 			},
 		mounted(){
 			Indicator.open({
@@ -67,10 +90,11 @@ import { Indicator } from 'mint-ui';
 			});
 			axios.get(`/appapi/home/mktBannerApp/v3?silo_id=2013000100000000011&platform_code=PLATEFORM_H5`).then(res=>{
 				// console.log(res.data.banners)
+				// console.log(res.data.data.link_url)
 				this.datalist = res.data.banners
 				// this.datalist = res.data.data
 
-				console.log(res.data)
+				
 			})
 			axios.get(`/appapi/cms/cmsDetail/v3?silo=2013000100000000011&ids=2041000100000000206&timestamp=1542936026319&summary=42a93e406330f96f0e3a024f4f8737d9&platform_code=H5`).then(res=>{
 				// console.log(res.data.resultList[0].data)
@@ -78,8 +102,8 @@ import { Indicator } from 'mint-ui';
 				// this.datalist = res.data.data
 			})
 			axios.get(`/appapi/silo/eventForH5?categoryId=crossborder&pageIndex=1&timestamp=1542941690663&summary=b596ecfc5e46f2814e7a3c0efb098500&platform_code=H5`).then(res=>{
-				// console.log(res.data.eventList)
 				this.datalist2 = res.data.eventList
+				this.total = res.data.totalPages
 				// this.datalist = res.data.data
 			})
 

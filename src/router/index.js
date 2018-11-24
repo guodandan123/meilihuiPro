@@ -13,7 +13,8 @@ import Women from '../components/women.vue'
 import Recommend from '../components/recommend.vue'
 import Men from '../components/men.vue'
 import Cosmetics from '../components/cosmetics.vue'
-
+import Login from '../components/login.vue'
+import Shoppingcart from '../components/shoppingcart.vue'
 
 
 Vue.use(Router)
@@ -70,10 +71,20 @@ export default new Router({
       
     },
     {
-      path: '/detail',
+      path: '/detail/:pid',
       component:Detail,
       
     },
+    {
+      path: '/login',
+      component:Login,
+      
+      },
+      {
+      path: '/shoppingcart',
+      component:Shoppingcart,
+      
+      },
    
      {
       path: '/',

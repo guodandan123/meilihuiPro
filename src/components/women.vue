@@ -18,7 +18,11 @@
 			</ul>
 		</div>
 		<div class="list">
-			<ul>
+			<ul class="each container" 
+  v-infinite-scroll="loadMore"
+  infinite-scroll-disabled="loading"
+  infinite-scroll-immediate-check="false"
+  infinite-scroll-distance="10">
 				<li v-for="data in datalist2"  >
 					<img :src="data.imageUrl" alt="" >
 					<div class="image_t">
@@ -29,6 +33,7 @@
 					</div>
 				</li>
 			</ul>
+			<img v-show="isShow" src="static/imgs/loading.png" style="width: 100px;margin:auto">
 		</div>
 		
 	
@@ -45,7 +50,11 @@ import { Indicator } from 'mint-ui';
 			return {
 				datalist:[],
 				datalist1:[],
-				datalist2:[]
+				datalist2:[],
+				loading:false,
+				current:1,
+				total:0,
+				isShow:true
 			}
 		},
 		methods:{
@@ -55,6 +64,21 @@ import { Indicator } from 'mint-ui';
 				},
 				listClick(){
 					this.$router.push('/list')
+				},
+				loadMore(){
+					console.log('到底了')
+					this.current++;
+					
+					if(this.current>this.total){
+						this.loading = true
+						this.isShow = false 
+						return;
+					}
+					axios.get(`appapi/silo/eventForH5?categoryId=women&pageIndex=${this.current}&timestamp=1542791244604&summary=37a02a1b5631212473be66bc73addb8e&platform_code=H5`).then(res=>{
+				
+					this.datalist2 = [...this.datalist2,...res.data.eventList]
+					
+					})
 				}
 			},
 		mounted(){
@@ -75,6 +99,7 @@ import { Indicator } from 'mint-ui';
 			axios.get(`appapi/silo/eventForH5?categoryId=women&pageIndex=1&timestamp=1542791244604&summary=37a02a1b5631212473be66bc73addb8e&platform_code=H5`).then(res=>{
 				console.log(res.data.eventList)
 				this.datalist2 = res.data.eventList
+				this.total = res.data.totalPages
 				// this.datalist = res.data.data
 			})
 
