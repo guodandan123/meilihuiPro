@@ -51,11 +51,11 @@ export default new Router({
           component:Cosmetics,
           
           },
-          {
-          path: '/',
-          redirect:'/silo/Recommend'
+          // {
+          // path: '/',
+          // redirect:'/silo/Recommend'
           
-          },
+          // },
       ]
       
     },
