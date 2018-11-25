@@ -134,7 +134,7 @@ import "swiper/dist/css/swiper.css"
 			},
 			onScroll(){
 				 this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-				console.log(this.scrollTop)
+				// console.log(this.scrollTop)
 				// console.log('aaaaaa')
 				return this.scrollTop
 
