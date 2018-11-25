@@ -1,11 +1,11 @@
 <template>
 	<div>
-		<div class="head" v-for="data in datalist">
+		<div class="head" v-if="datalist">
 			<div class="head_nav">
 				<p class="back" @click="returnhandleClick()"><i class="iconfont icon-toleft" style="font-size: 28px;font-weight: 900"></i></p>
 				<p class="share"><i class="iconfont icon-gengduo" style="font-size: 28px;font-weight: 900;color:black;"></i></p>
-				<p class="brand">{{data.brand}}</p>
-				<p class="price">￥{{data.price}}</p>
+				<p class="brand">{{datalist.brand}}</p>
+				<p class="price">￥{{datalist.price}}</p>
 			</div>
 			
 			<div class="swiper_pic">
@@ -20,7 +20,7 @@
 			        <!-- 如果需要导航按钮 -->
 			        <!-- <div class="swiper-button-prev"></div> -->
 			        <!-- <div class="swiper-button-next"></div> -->
-			        
+			       
 			        <!-- 如果需要滚动条 -->
 			        <div class="swiper-scrollbar"></div>
 				</div>
@@ -121,7 +121,7 @@ import { Indicator } from 'mint-ui';
 	export default {
 		data () {
 			return {
-				datalist:[],
+				datalist:null,
 				looplist:[],
 				information:null,
 				newTagList:[],
@@ -148,18 +148,17 @@ import { Indicator } from 'mint-ui';
 			  text: '加载中...',
 			  spinnerType: 'fading-circle'
 			});
-			axios.get(`/appapi/product/colorgroupsize/v3?categoryId=2120005100000001419&productId=2040204099000594277&platform_code=H5&timestamp=1543039344697&summary=0b6c79ccdaf39b6d0fd39b55496162bc`).then(res=>{
-				// console.log(res.data.infos.colorGroup[0].brand)
-				console.log(this.$route.params.eventId)
-				this.datalist=res.data.infos.colorGroup;
-			})
+			
 
 			axios.get(`/appapi/product/detail/v3?${this.$route.params.pid}&platform_code=H5&timestamp=1543039344697&summary=0b6c79ccdaf39b6d0fd39b55496162bc`).then(res=>{
 				// console.log(res.data.infos.images)
 				// console.log(res.data.infos)
 				// console.log(res.data.infos.service_labels)
-				console.log(res.data.infos.newTagList)
+				// console.log(res.data.infos.newTagList)
+				// this.datalist=res.data.infos;
+				// console.log(res.data.infos)
 				this.looplist=res.data.infos.images;
+				this.datalist=res.data.infos;
 				
 				this.$nextTick(()=>{
 					 new Swiper('.swiper-container',{
