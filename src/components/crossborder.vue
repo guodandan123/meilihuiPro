@@ -24,7 +24,7 @@
   infinite-scroll-immediate-check="false"
   infinite-scroll-distance="10">
 				<li v-for="data in datalist2">
-					<img :src="data.imageUrl" alt="" >
+					<img :src="data.imageUrl" alt=""  @click="toList(data.eventId)">
 					<div class="image_t">
 						<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
 						<p>{{data.englishName}}</p>
@@ -80,6 +80,9 @@ import { Indicator } from 'mint-ui';
 					this.datalist2 = [...this.datalist2,...res.data.eventList]
 					
 					})
+				},
+				toList(ids){
+					this.$router.push('/list/'+ids)
 				}
 
 			},

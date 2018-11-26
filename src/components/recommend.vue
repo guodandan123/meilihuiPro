@@ -21,7 +21,8 @@
 		</div>
 		<ul>
 			<li v-for="data in datalist1">
-				<img :src="data.imageUrl">
+				<img :src="data.imageUrl" @click="toList(data.eventId)">
+			
 				<div class="info">
 					<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
 					<p>{{data.englishName}}</p>
@@ -79,8 +80,9 @@ import { Indicator } from 'mint-ui';
 					var logoid = url.split("/").slice(-1).join("")
 					this.$router.push('/brand/'+logoid)
 				},
-				listClick(){
-					this.$router.push('/list')
+				
+				toList(ids){
+					this.$router.push('/list/'+ids)
 				}
 			},
 		mounted(){

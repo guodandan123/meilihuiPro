@@ -25,7 +25,7 @@
   infinite-scroll-distance="10">
 				<li v-for="data in datalist2" :key="data.id">
 					<a href="javascript:;">
-						<img :src="data.imageUrl" alt="" >
+						<img :src="data.imageUrl" alt=""  @click="toList(data.eventId)">
 					</a>
 					<div class="image_t">
 						<span :class="data.siloCategory=='海外'?'siloCategory':''">{{data.siloCategory=='海外'?'海外直发':''}}</span>
@@ -83,6 +83,9 @@
 					this.datalist2 = [...this.datalist2,...res.data.eventList]
 					
 					})
+				},
+				toList(ids){
+					this.$router.push('/list/'+ids)
 				}
 
 				

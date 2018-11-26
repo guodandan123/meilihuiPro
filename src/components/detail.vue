@@ -3,7 +3,7 @@
 		<div class="head" v-if="datalist">
 			<div class="head_nav">
 				<p class="back" @click="returnhandleClick()"><i class="iconfont icon-toleft" style="font-size: 28px;font-weight: 900"></i></p>
-				<p class="share"><i class="iconfont icon-gengduo" style="font-size: 28px;font-weight: 900;color:black;"></i></p>
+				<p class="share"><i class="iconfont icon-gengduo" style="font-size: 28px;font-weight: 900;"></i></p>
 				<p class="brand">{{datalist.brand}}</p>
 				<p class="price">￥{{datalist.price}}</p>
 			</div>
@@ -245,11 +245,11 @@ import { Indicator } from 'mint-ui';
 			}
 			.share{
 				position: absolute;
-				right:0;
+				right:20px;
 				width: 50px;
 				height: 40px;
 				color: black;
-				text-align: center;
+				/* text-align: center; */
 				padding: 10px 0 0 0;
 			}
 		}

@@ -6,7 +6,7 @@
 	    	<div class="head_nav">
 	    		<p class="back" @click="returnhandleClick()"><i class="iconfont icon-toleft" style="font-size: 28px;font-weight: 900"></i></p>
 	    		<p class="share"><i class="iconfont icon-gengduo" style="font-size: 28px;font-weight: 900;color:black;"></i></p>
-	   			<p class="event">{{infomation.eventName}}</p>
+	   			<p class="event" v-if="infomation">{{infomation.eventName}}</p>
 	    	</div>
 	    </div>
 		<!-- <smallhead></smallhead>
@@ -67,7 +67,7 @@ import smallnav from "./smallnav.vue"
 			}
 		},
 		mounted(){
-			axios.get(`/appapi/event/product/v3?pageIndex=1&categoryId=2120005100000001536&key=&sort=&timestamp=1543145190085&summary=9c6a41b4b6db3f541ec5ebdb9c35f318&platform_code=H5`).then(res=>{
+			axios.get(`/appapi/event/product/v3?pageIndex=1&categoryId=${this.$route.params.ids}&key=&sort=&timestamp=1543145190085&summary=9c6a41b4b6db3f541ec5ebdb9c35f318&platform_code=H5`).then(res=>{
 				console.log(res.data)
 				this.infomation = res.data;
 				this.datalist = res.data.products;

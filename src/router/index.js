@@ -66,7 +66,7 @@ export default new Router({
       
     },
     {
-      path: '/list',
+      path: '/list/:ids',
       component:List,
       
     },
